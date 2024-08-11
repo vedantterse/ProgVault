@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
-const PASSWORD = '1234'; // Set your desired password here
+const PASSWORD = '231041957605'; // Set your desired password here
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));

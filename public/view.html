@@ -53,6 +53,7 @@
     <script src="script.js"></script>
     <script>
         document.addEventListener('keydown', function(event) {
+            console.log('Key down event:', event.key);
             if (event.ctrlKey) {
                 if (event.key === 'p' || event.key === 'P' || event.key === 's' || event.key === 'S') {
                     event.preventDefault(); // Prevent default action
