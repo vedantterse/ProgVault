@@ -56,6 +56,11 @@ if (UNDER_CONSTRUCTION) {
     });
 }
 
+// Debug route to check environment variable
+app.get('/debug', (req, res) => {
+    res.send(`UNDER_CONSTRUCTION is set to ${UNDER_CONSTRUCTION}`);
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
