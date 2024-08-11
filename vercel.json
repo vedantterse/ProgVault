@@ -5,14 +5,12 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "server.js"
-    }
-  ],
-  "rewrites": [
+      "src": "/under-construction",
+      "dest": "/under-construction.html"
+    },
     {
-      "source": "/(.*)",
-      "destination": "/under-construction.html"
+      "src": "/(.*)",
+      "dest": "/server.js"
     }
   ]
 }
