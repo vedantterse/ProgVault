@@ -20,43 +20,49 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve under construction page if needed
-if (UNDER_CONSTRUCTION) {
-    app.get('*', (req, res) => {
+app.get('*', (req, res) => {
+    if (UNDER_CONSTRUCTION) {
         res.sendFile(path.join(__dirname, 'public', 'under-construction.html'));
-    });
-} else {
-    // Serve the login page
-    app.get('/', (req, res) => {
-        if (req.session.authenticated) {
-            // Redirect to PDF view page if already authenticated
-            res.redirect('/pdfview');
+    } else {
+        // Serve the login page
+        if (req.path === '/') {
+            if (req.session.authenticated) {
+                // Redirect to PDF view page if already authenticated
+                res.redirect('/pdfview');
+            } else {
+                res.sendFile(path.join(__dirname, 'public', 'index.html')); // Adjust to your HTML file
+            }
         } else {
-            res.sendFile(path.join(__dirname, 'public', 'index.html')); // Adjust to your HTML file
+            // Handle other routes
+            if (req.session.authenticated || req.path === '/login') {
+                res.sendFile(path.join(__dirname, 'public', 'index.html'));
+            } else {
+                res.redirect('/');
+            }
         }
-    });
+    }
+});
 
-    // Handle login POST request
-    app.post('/login', (req, res) => {
-        const { password } = req.body;
-        if (password === PASSWORD) {
-            req.session.authenticated = true; // Set session as authenticated
-            res.json({ success: true });
-        } else {
-            res.json({ success: false, message: 'Incorrect Password' });
-        }
-    });
+// Handle login POST request
+app.post('/login', (req, res) => {
+    const { password } = req.body;
+    if (password === PASSWORD) {
+        req.session.authenticated = true; // Set session as authenticated
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, message: 'Incorrect Password' });
+    }
+});
 
-    // Serve the PDF view page
-    app.get('/pdfview', (req, res) => {
-        if (req.session.authenticated) {
-            res.sendFile(path.join(__dirname, 'public', 'view.html')); // Adjust to your PDF view page
-        } else {
-            res.redirect('/'); // Redirect to login page if not authenticated
-        }
-    });
-}
+// Serve the PDF view page
+app.get('/pdfview', (req, res) => {
+    if (req.session.authenticated) {
+        res.sendFile(path.join(__dirname, 'public', 'view.html')); // Adjust to your PDF view page
+    } else {
+        res.redirect('/'); // Redirect to login page if not authenticated
+    }
+});
 
-// Debug route to check environment variable
 app.get('/debug', (req, res) => {
     res.send(`UNDER_CONSTRUCTION is set to ${UNDER_CONSTRUCTION}`);
 });
