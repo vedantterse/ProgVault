@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="image/favicon.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer with Particles</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style for the popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #333;
+            color: #fff;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #555;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles.js container -->
+    <div id="particles-js"></div>
+
+    <!-- PDF viewer container -->
+    <div class="container">
+        <iframe id="pdf-viewer" src="pdfs/PYTHON.pdf#toolbar=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+        <p>Shortcut keys are disabled.</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+
+    <!-- Particle.js and your script -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey) {
+                if (event.key === 'p' || event.key === 'P' || event.key === 's' || event.key === 'S') {
+                    event.preventDefault(); // Prevent default action
+                    showPopup(); // Show the popup
+                }
+            }
+        });
+
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
