@@ -1,34 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/png" href="image/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Construction</title>
-    <link rel="icon" type="image/png" href="/image/down.png"> <!-- New favicon -->
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your main stylesheet -->
     <style>
-        body {
+        /* Basic reset and full height */
+        body, html {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            height: 100%;
+            overflow: hidden;
             font-family: Arial, sans-serif;
         }
-        .container {
-            text-align: center;
+
+        /* Particles.js container */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff5f6d, #ffc371); /* Gradient background */
+            z-index: -1; /* Keep particles behind the form */
         }
-        img {
-            max-width: 100%;
-            height: auto;
+
+        /* Center the login container */
+        .login-container {
+            position: relative;
+            text-align: center;
+            z-index: 1; /* Ensure the form is above the particles */
+            background: rgba(235, 159, 111, 0.9); /* Slightly transparent white background */
+            border-radius: 12px;
+            border: 1px solid #ffc371;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+            width: 90%;
+            max-width: 400px;
+            margin: auto;
+            margin-top: 17%;
+        }
+
+        /* Input styles */
+        .login-container input[type="password"] {
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 90%;
+            border: 1px solid #6f0808;
+            border-radius: 6px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Focus effect for the input */
+        .login-container input[type="password"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        /* Submit button styles */
+        .login-container input[type="submit"] {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            background-color: #007bff; /* Blue button */
+            color: white;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover effect for the button */
+        .login-container input[type="submit"]:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Error popup styles */
+        .error-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.7); /* Red gradient with transparency */
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+        .error-popup p {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .error-popup button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #333;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="/image/underdev.png" alt="Under Construction">
-        <h1>We're currently working on something. Please check back later!</h1>
+    <!-- Particles.js container -->
+    <div id="particles-js"></div>
+
+    <!-- Login form container -->
+    <div class="login-container">
+        <h2>Enter Password to Access</h2>
+        <form id="login-form" action="/login" method="post">
+            <input type="password" name="password" placeholder="Enter Password" required />
+            <input type="submit" value="Submit" />
+        </form>
     </div>
+
+    <!-- Error Popup -->
+    <div id="error-popup" class="error-popup">
+        <p id="error-message-text"></p>
+        <button onclick="closeErrorPopup()">OK</button>
+    </div>
+    
+
+    <!-- Particles.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- Initialize particles.js -->
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 500,
+                    "density": {
+                        "enable": true,
+                        "value_area":1000
+                    }
+                },
+                "color": {
+                    "value": "#000000" // Black particles
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false
+                },
+                "size": {
+                    "value": 2,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#000000", // Black lines
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out"
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+
+    <!-- Error handling script -->
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting the default way
+    const password = document.querySelector('input[name="password"]').value;
+
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({ password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/pdfview';
+        } else {
+            showErrorPopup(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showErrorPopup('An unexpected error occurred. Please try again.');
+    });
+});
+
+function showErrorPopup(message) {
+    document.getElementById('error-message-text').textContent = message;
+    document.getElementById('error-popup').style.display = 'block';
+}
+
+function closeErrorPopup() {
+    document.getElementById('error-popup').style.display = 'none';
+}
+
+    </script>
 </body>
 </html>
