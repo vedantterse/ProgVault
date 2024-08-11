@@ -2,11 +2,12 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const PASSWORD = '231041957605'; // Set your desired password here
-const UNDER_CONSTRUCTION = process.env.UNDER_CONSTRUCTION === 'true'; // Read environment variable
+const UNDER_CONSTRUCTION_FILE = path.join(__dirname, 'under-construction.flag');
 
 // Configure session middleware
 app.use(session({
@@ -19,9 +20,12 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Check if under-construction mode is enabled
+const isUnderConstruction = () => fs.existsSync(UNDER_CONSTRUCTION_FILE);
+
 // Serve under construction page if needed
 app.get('*', (req, res) => {
-    if (UNDER_CONSTRUCTION) {
+    if (isUnderConstruction()) {
         res.sendFile(path.join(__dirname, 'public', 'under-construction.html'));
     } else {
         // Serve the login page
@@ -63,8 +67,19 @@ app.get('/pdfview', (req, res) => {
     }
 });
 
+// Toggle under construction mode
+app.post('/toggle-construction', (req, res) => {
+    if (isUnderConstruction()) {
+        fs.unlinkSync(UNDER_CONSTRUCTION_FILE); // Remove file to exit under-construction mode
+        res.send('Site is now live.');
+    } else {
+        fs.writeFileSync(UNDER_CONSTRUCTION_FILE, ''); // Create file to enter under-construction mode
+        res.send('Site is now under construction.');
+    }
+});
+
 app.get('/debug', (req, res) => {
-    res.send(`UNDER_CONSTRUCTION is set to ${UNDER_CONSTRUCTION}`);
+    res.send(`UNDER_CONSTRUCTION is set to ${isUnderConstruction()}`);
 });
 
 app.listen(PORT, () => {
