@@ -76,6 +76,35 @@
             background-color: #0056b3;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+        /* Error popup styles */
+        .error-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.7); /* Red gradient with transparency */
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+        .error-popup p {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .error-popup button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #333;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -85,10 +114,16 @@
     <!-- Login form container -->
     <div class="login-container">
         <h2>Enter Password to Access</h2>
-        <form action="/login" method="post">
+        <form id="login-form" action="/login" method="post">
             <input type="password" name="password" placeholder="Enter Password" required />
             <input type="submit" value="Submit" />
         </form>
+    </div>
+
+    <!-- Error Popup -->
+    <div id="error-popup" class="error-popup">
+        <p>Incorrect Password. Please try again.</p>
+        <button onclick="closeErrorPopup()">OK</button>
     </div>
 
     <!-- Particles.js library -->
@@ -153,6 +188,38 @@
             },
             "retina_detect": true
         });
+    </script>
+
+    <!-- Error handling script -->
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+            const password = document.querySelector('input[name="password"]').value;
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/pdfview';
+                } else {
+                    showErrorPopup(data.message);
+                }
+            });
+        });
+
+        function showErrorPopup(message) {
+            document.getElementById('error-popup').style.display = 'block';
+        }
+
+        function closeErrorPopup() {
+            document.getElementById('error-popup').style.display = 'none';
+        }
     </script>
 </body>
 </html>
