@@ -122,9 +122,10 @@
 
     <!-- Error Popup -->
     <div id="error-popup" class="error-popup">
-        <p>Incorrect Password. Please try again.</p>
+        <p id="error-message-text"></p>
         <button onclick="closeErrorPopup()">OK</button>
     </div>
+    
 
     <!-- Particles.js library -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -193,33 +194,39 @@
     <!-- Error handling script -->
     <script>
         document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting the default way
-            const password = document.querySelector('input[name="password"]').value;
+    event.preventDefault(); // Prevent the form from submitting the default way
+    const password = document.querySelector('input[name="password"]').value;
 
-            fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: new URLSearchParams({ password })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = '/pdfview';
-                } else {
-                    showErrorPopup(data.message);
-                }
-            });
-        });
-
-        function showErrorPopup(message) {
-            document.getElementById('error-popup').style.display = 'block';
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({ password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/pdfview';
+        } else {
+            showErrorPopup(data.message);
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showErrorPopup('An unexpected error occurred. Please try again.');
+    });
+});
 
-        function closeErrorPopup() {
-            document.getElementById('error-popup').style.display = 'none';
-        }
+function showErrorPopup(message) {
+    document.getElementById('error-message-text').textContent = message;
+    document.getElementById('error-popup').style.display = 'block';
+}
+
+function closeErrorPopup() {
+    document.getElementById('error-popup').style.display = 'none';
+}
+
     </script>
 </body>
 </html>
