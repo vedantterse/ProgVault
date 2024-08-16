@@ -11,9 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/next": "^9.0.0",
+    "@vercel/blob": "^0.23.4",
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "firebase": "^10.13.0",
     "tp": "file:"
   },
   "devDependencies": {
