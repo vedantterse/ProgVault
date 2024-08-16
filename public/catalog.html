@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="image/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog</title>
+    <link rel="stylesheet" href="catalog.css">
+    <style>
+
+        /* Ensure particles cover the entire background */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Send particles to the background */
+        }
+
+        /* Ensure the catalog container appears above the particles */
+        .catalog-container {
+            position: relative;
+            z-index: 1;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .catalog-item {
+            display: inline-block;
+            width: 200px;
+            height: 300px;
+            margin: 20px;
+            position: relative;
+            cursor: pointer;
+            background: rgba(119, 105, 90, 0.26);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .catalog-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-effect {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: rgb(0, 0, 0);
+            font-size: 1.5em;
+        }
+
+        h2 {
+            margin:0;
+            padding: 0;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Dark background for contrast */
+            color: #fff; /* White text */
+            text-align: left;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="catalog-container">
+        
+        <h1>Programming Essentials Catalog</h1>
+
+        <div class="spacer"></div>
+
+        
+        <div class="catalog-item" onclick="window.location.href='/python-notes'">
+            <div class="glass-effect">
+                <h2>PY-NOTES</h2>
+            </div>
+        </div>
+        <div class="catalog-item" onclick="window.location.href='/DBMS'">
+            <div class="glass-effect">
+                <h2> DBMS </h2>
+            </div>
+        </div>
+        <div class="catalog-item" onclick="window.location.href='/Operating-Systems'">
+            <div class="glass-effect">
+                <h2>Operating Systems</h2>
+            </div>
+        </div>
+        <div class="catalog-item" onclick="window.location.href='/Computer-Networks'">
+            <div class="glass-effect">
+                <h2>Computer Networks</h2>
+            </div>
+            
+        </div>
+        <div class="catalog-item" onclick="window.location.href='/System-Design'">
+            <div class="glass-effect">
+                <h2>System Design</h2>
+            </div>
+        </div>
+        <!-- Add more books as needed -->
+    </div>
+
+    <!-- Particle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle"
+                },
+                opacity: {
+                    value: 0.5
+                },
+                size: {
+                    value: 4
+                },
+                move: {
+                    enable: true,
+                    speed: 3
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "repulse"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    }
+                },
+                modes: {
+                    repulse: {
+                        distance: 100,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+<footer>
+    © 2024 Made by <a href="https://github.com/vedantterse" target="_blank" style="color: #fff; text-decoration: none;">Vedantterse</a>
+</footer>
+
+</html>

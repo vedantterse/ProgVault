@@ -9,10 +9,10 @@ const PASSWORD = '231041957605'; // Set your desired password here
 
 // Configure session middleware
 app.use(session({
-    secret: '231041957605', 
+    secret: '231041957605',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 2 * 60 * 1000 } // Session expiration in milliseconds (1 minutes)
+    cookie: { maxAge: 3 * 60 * 1000 } // Session expiration in milliseconds (2 minutes)
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,8 +21,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Serve the login page
 app.get('/', (req, res) => {
     if (req.session.authenticated) {
-        // Redirect to PDF view page if already authenticated
-        res.redirect('/pdfview');
+        // Redirect to catalog page if already authenticated
+        res.redirect('/catalog');
     } else {
         res.sendFile(path.join(__dirname, 'public', 'index.html')); 
     }
@@ -39,13 +39,61 @@ app.post('/login', (req, res) => {
     }
 });
 
-// Serve the PDF view page
-app.get('/pdfview', (req, res) => {
+// Serve the catalog page
+app.get('/catalog', (req, res) => {
     if (req.session.authenticated) {
-        res.sendFile(path.join(__dirname, 'public', 'view.html'));
+        res.sendFile(path.join(__dirname, 'public', 'catalog.html'));
     } else {
-        res.redirect('/'); // Redirect to login page if not authenticated
+        res.redirect('/');
     }
+});
+
+// Serve individual PDF views
+app.get('/python-notes', (req, res) => {
+    if (req.session.authenticated) {
+        res.sendFile(path.join(__dirname, 'public', 'view1.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/DBMS', (req, res) => {
+    if (req.session.authenticated) {
+        res.sendFile(path.join(__dirname, 'public', 'view2.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/Operating-Systems', (req, res) => {
+    if (req.session.authenticated) {
+        res.sendFile(path.join(__dirname, 'public', 'view3.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+app.get('/Computer-Networks', (req, res) => {
+    if (req.session.authenticated) {
+        res.sendFile(path.join(__dirname, 'public', 'view4.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+app.get('/System-Design', (req, res) => {
+    if (req.session.authenticated) {
+        res.sendFile(path.join(__dirname, 'public', 'view5.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+// Handle logout (optional, if you want a logout functionality)
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+        }
+        res.redirect('/');
+    });
 });
 
 app.listen(PORT, () => {
